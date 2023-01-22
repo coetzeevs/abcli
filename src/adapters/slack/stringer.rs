@@ -1,4 +1,5 @@
 pub fn reverse(input: &String) -> String {
+    println!("{:?}", *input);
     return input.chars().rev().collect();
 }
 

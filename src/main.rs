@@ -1,5 +1,3 @@
-#![allow(unused)]
-
 mod adapters;
 mod cli;
 
@@ -14,8 +12,7 @@ mod prelude {
 use crate::prelude::*;
 
 
-use ::clap::{Parser, Subcommand};
-use crate::cli::commands::slack::Status;
+use ::clap::Parser;
 
 
 #[derive(Parser)]
@@ -31,10 +28,13 @@ fn main() {
     let parsed_cli = Cli::parse();
 
     match &parsed_cli.command {
-        Some(Commands::Status(name)) => {
-            match name.status {
-                Some(ref _name) => {
-                    let reverse = slack_stringer::reverse(_name);
+        // This operates like a switch statement - this is the command level (e.g. slack or evernote)
+        Some(Commands::Slack(args)) => {
+            // This is the args level (for now) - e.g. slack status or slack set
+            // args.string extracts the field value for the arg value "string"
+            match args.string {
+                Some(ref _args) => {
+                    let reverse = slack_stringer::reverse(_args);
                     println!("{}", reverse);
                 }
                 None => {
@@ -42,7 +42,9 @@ fn main() {
                 }
             }
         }
-        None => {}
+        None => {
+            println!("No commands passed - please provide one of the available commands");
+        }
     }
 }
 

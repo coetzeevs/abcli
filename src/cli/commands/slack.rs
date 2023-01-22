@@ -3,14 +3,15 @@ use ::clap::{Args,Subcommand};
 
 #[derive(Args)]
 /// Returns Slack status for the given user
-pub struct Status {
+pub struct SlackArgs {
     /// For now - just returns the string in reverse
-    #[arg(short = 's', long = "status")]
-    pub status: Option<String>,
+    #[arg(short = 's', long = "string")]
+    pub string: Option<String>,
 }
 
+// first tier subcommands - e.g. acbli slack or abcli evernote
 #[derive(Subcommand)]
 pub enum Commands {
-    /// Returns the given status string in reverse
-    Status(Status),
+    /// Slack command to interface with various methods from the Slack API
+    Slack(SlackArgs),
 }
