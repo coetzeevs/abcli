@@ -3,8 +3,8 @@ use ::clap::Args;
 
 #[derive(Args)]
 /// Returns Slack status for the given user
-pub struct SlackArgs {
+pub struct SpotifyArgs {
     /// For now - just returns the string in reverse
-    #[arg(short = 's', long = "string")]
-    pub string: Option<String>,
+    #[arg(short = 'q', long = "query")]
+    pub query: Option<String>,
 }
