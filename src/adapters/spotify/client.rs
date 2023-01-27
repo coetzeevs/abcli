@@ -7,7 +7,7 @@ use crate::adapters::spotify::models::APIResponse;
 
 #[tokio::main]
 pub async fn query(query: &String) -> Result<(), Box<dyn std::error::Error>> {
-    let auth_token = &String::from("BQAQRQfVlEOChnH8-KD3Y3nbl842lgx3rggdJ0Orb95i-4WrTdZy3JD8HF3V-O3cJqk5EQgrGEZg2S-fIL8HyfKZ738V8hoTr8m93NNBf_paHDF4hHAMSXJnNyM_s4ti4D9dUTVYW0aq9mof-L37Mi_lQRi_4pT05QcMIKaJZE716yU4ZW39lPghhSEcqO_OOmMH");
+    let auth_token = &String::from("");
     let url = format!(
         "https://api.spotify.com/v1/search?q={query}&type=track,artist",
         query = query
