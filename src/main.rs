@@ -1,5 +1,4 @@
 #[allow(dead_code)]
-
 mod adapters;
 mod cli;
 
@@ -15,9 +14,13 @@ mod prelude {
 }
 use crate::prelude::*;
 
+// tracing and other juicy stuff
+use color_eyre::Report;
+use tracing::info;
+use tracing_subscriber::EnvFilter;
 
+// clap
 use ::clap::Parser;
-
 
 #[derive(Parser)]
 #[command(author, version)]
@@ -28,7 +31,12 @@ pub struct Cli {
     command: Option<Commands>,
 }
 
-fn main() {
+#[tokio::main]
+async fn main() -> Result<(), Report> {
+    setup()?;
+    info!("Setup done...");
+
+    info!("Parsing CLI...");
     let parsed_cli = Cli::parse();
 
     match &parsed_cli.command {
@@ -50,9 +58,15 @@ fn main() {
             // This is the args level (for now) - e.g. slack status or slack set
             // args.string extracts the field value for the arg value "string"
             match args.query {
-                Some(ref _args) => {
-                    let reverse = spotify_client::query(&_args);
-                    println!("{:#?}", reverse);
+                Some(ref args) => {
+                    // TODO: need to change the spotify query function
+                        // the query function needs to receive the query string, use the set headers,
+                        // call the spotify client (which uses the base client abstraction)
+                        // recieve and parse the response
+                        // forward the results here as an object of type APIResponse
+                        // For help on futures: https://fasterthanli.me/articles/understanding-rust-futures-by-going-way-too-deep
+                        // For help on error handling: https://www.shuttle.rs/blog/2022/06/30/error-handling
+                    spotify_client::query(&args).await;
                 }
                 None => {
                     println!("Please provide a query to search for...");
@@ -63,21 +77,21 @@ fn main() {
             println!("No commands passed - please provide one of the available commands");
         }
     }
+    Ok(())
 }
 
-// saving this for later reference
-// let _d = API {};
-// let _f = Slack {};
+fn setup() -> Result<(), Report> {
+    if std::env::var("RUST_LIB_BACKTRACE").is_err() {
+        std::env::set_var("RUST_LIB_BACKTRACE", "1")
+    }
+    color_eyre::install()?;
 
-// use anyhow::{Context, Result};
+    if std::env::var("RUST_LOG").is_err() {
+        std::env::set_var("RUST_LOG", "info")
+    }
+    tracing_subscriber::fmt::fmt()
+        .with_env_filter(EnvFilter::from_default_env())
+        .init();
 
-
-// let content = std::fs::read_to_string(&args.path)
-//     .with_context(|| format!("Could not read file `{}`", &args.path.display()))?;
-
-// for line in content.lines() {
-//     if line.contains(&args.pattern) {
-//         println!("{}", line);
-//     }
-// }
-// Ok(())
+    Ok(())
+}
