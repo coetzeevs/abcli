@@ -51,8 +51,8 @@ fn main() {
             // args.string extracts the field value for the arg value "string"
             match args.query {
                 Some(ref _args) => {
-                    let reverse = spotify_client::query(&_args);
-                    println!("{:#?}", reverse);
+                    let _reverse = spotify_client::query(&_args);
+                    // println!("{:#?}", reverse);
                 }
                 None => {
                     println!("Please provide a query to search for...");
