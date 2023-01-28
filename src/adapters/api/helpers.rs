@@ -1,11 +1,13 @@
-use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
+use reqwest::header::HeaderMap;
+use crate::adapters::api::models::Headers;
 
 
-pub fn construct_headers(headers: std::collections::HashMap<HeaderName, &'static String>) -> HeaderMap {
-    let mut h_map = HeaderMap::new();
+pub fn construct_headers(headers: Headers) -> HeaderMap {
+    let mut hmap = HeaderMap::new();
 
-    for (k, v) in headers {
-        h_map.entry(k).or_insert_with(|| { HeaderValue::from_static(v.as_str()) });
+    for i in headers.headers {
+        hmap.entry(i.header_name).or_insert_with(|| {i.header_value});
     }
-    h_map
+
+    hmap
 }
