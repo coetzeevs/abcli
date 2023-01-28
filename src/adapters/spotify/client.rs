@@ -33,7 +33,7 @@ fn set_headers() -> Headers {
     headers
 }
 
-pub async fn query(query: &String) -> Result<(), Box<dyn std::error::Error>> {
+pub async fn query(query: &String) -> Result<APIResponse, Box<dyn std::error::Error>> {
 
     let url = format!(
         "https://api.spotify.com/v1/search?q={query}&type=track,artist",
@@ -45,7 +45,7 @@ pub async fn query(query: &String) -> Result<(), Box<dyn std::error::Error>> {
     match response.status() {
         StatusCode::OK => {
             match response.json::<APIResponse>().await {
-                Ok(parsed) => println!("{:#?}", parsed),
+                Ok(parsed) => parsed,
                 Err(_) => panic!("Err caught on status OK...")
             };
         }
@@ -58,7 +58,7 @@ pub async fn query(query: &String) -> Result<(), Box<dyn std::error::Error>> {
     };
     // TODO: cleanup response
     //       add more commands and parameters
-    Ok(())
+    Ok(APIResponse { tracks: super::models::Items { items: vec![]} })
 }
 
 // TODO: discuss error variants https://rust-lang-nursery.github.io/rust-cookbook/errors/handle.html
