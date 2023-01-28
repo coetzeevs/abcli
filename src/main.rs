@@ -1,7 +1,6 @@
 #[allow(dead_code)]
 mod adapters;
 mod cli;
-mod utils;
 
 mod prelude {
     // add adapters
@@ -32,7 +31,8 @@ pub struct Cli {
     command: Option<Commands>,
 }
 
-fn main() -> Result<(), Report> {
+#[tokio::main]
+async fn main() -> Result<(), Report> {
     setup()?;
     info!("Setup done...");
 
@@ -58,15 +58,15 @@ fn main() -> Result<(), Report> {
             // This is the args level (for now) - e.g. slack status or slack set
             // args.string extracts the field value for the arg value "string"
             match args.query {
-                Some(ref _args) => {
+                Some(ref args) => {
                     // TODO: need to change the spotify query function
-                        // the query function needs to receive the query string, use the set headers
+                        // the query function needs to receive the query string, use the set headers,
                         // call the spotify client (which uses the base client abstraction)
                         // recieve and parse the response
                         // forward the results here as an object of type APIResponse
                         // For help on futures: https://fasterthanli.me/articles/understanding-rust-futures-by-going-way-too-deep
                         // For help on error handling: https://www.shuttle.rs/blog/2022/06/30/error-handling
-                    let _res = spotify_client::query(&_args);
+                    spotify_client::query(&args).await;
                 }
                 None => {
                     println!("Please provide a query to search for...");
