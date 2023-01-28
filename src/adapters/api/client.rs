@@ -11,5 +11,5 @@ pub async fn client(url: String, headers: Headers) -> reqwest::Response {
         .await
         .unwrap();
 
-    return response;
+    response
 }

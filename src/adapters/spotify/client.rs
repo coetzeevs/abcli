@@ -19,7 +19,7 @@ fn set_headers() -> Headers {
             },
             Header {
                 header_name: AUTHORIZATION,
-                header_value: HeaderValue::from_str(format!("Bearer {}", fake_auth)
+                header_value: HeaderValue::from_str(format!("Bearer {fake_auth}")
                     .as_str())
                     .unwrap()
             },
@@ -34,10 +34,7 @@ fn set_headers() -> Headers {
 
 pub async fn query(query: &String) {
 
-    let url = format!(
-        "https://api.spotify.com/v1/search?q={query}&type=track,artist",
-        query = query
-    );
+    let url = format!("https://api.spotify.com/v1/search?q={query}&type=track,artist");
     
     let response = client(url, set_headers());
 
