@@ -1,7 +1,6 @@
 use crate::adapters::api::helpers::construct_headers;
 use crate::adapters::api::models::Headers;
 
-#[tokio::main]
 pub async fn client(url: String, headers: Headers) -> reqwest::Response {
     let client = reqwest::Client::new();
 
