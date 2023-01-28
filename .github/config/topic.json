@@ -2,6 +2,7 @@
     "names": [
         "rust",
         "cli",
-        "abcli"
+        "abcli",
+        "api"
     ]
 }
