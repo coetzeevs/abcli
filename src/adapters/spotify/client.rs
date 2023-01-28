@@ -1,10 +1,9 @@
 // use core::result::Result::Ok;
-use reqwest::StatusCode;
 use reqwest::header::{HeaderValue, ACCEPT, AUTHORIZATION, CONTENT_TYPE};
 
 use crate::adapters::api::client::client;
 use crate::adapters::api::models::{Header, Headers};
-use crate::adapters::spotify::models::APIResponse;
+use crate::adapters::spotify::helpers::parse_response;
 
 
 // TODO: finish
@@ -33,7 +32,7 @@ fn set_headers() -> Headers {
     headers
 }
 
-pub async fn query(query: &String) -> Result<APIResponse, Box<dyn std::error::Error>> {
+pub async fn query(query: &String) {
 
     let url = format!(
         "https://api.spotify.com/v1/search?q={query}&type=track,artist",
@@ -42,23 +41,7 @@ pub async fn query(query: &String) -> Result<APIResponse, Box<dyn std::error::Er
     
     let response = client(url, set_headers());
 
-    match response.status() {
-        StatusCode::OK => {
-            match response.json::<APIResponse>().await {
-                Ok(parsed) => parsed,
-                Err(_) => panic!("Err caught on status OK...")
-            };
-        }
-        StatusCode::UNAUTHORIZED => {
-            println!("Need to grab a new token");
-        }
-        other => {
-            panic!("Uh oh! Something unexpected happened: {:?}", other);
-        }
-    };
-    // TODO: cleanup response
-    //       add more commands and parameters
-    Ok(APIResponse { tracks: super::models::Items { items: vec![]} })
+    parse_response(response.await).await;
 }
 
 // TODO: discuss error variants https://rust-lang-nursery.github.io/rust-cookbook/errors/handle.html
