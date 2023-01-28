@@ -47,7 +47,7 @@ async fn main() -> Result<(), Report> {
             match args.string {
                 Some(ref _args) => {
                     let reverse = slack_stringer::reverse(_args);
-                    println!("{}", reverse);
+                    println!("{reverse}");
                 }
                 None => {
                     println!("Please provide a string to reverse..");
@@ -66,7 +66,7 @@ async fn main() -> Result<(), Report> {
                         // forward the results here as an object of type APIResponse
                         // For help on futures: https://fasterthanli.me/articles/understanding-rust-futures-by-going-way-too-deep
                         // For help on error handling: https://www.shuttle.rs/blog/2022/06/30/error-handling
-                    spotify_client::query(&args).await;
+                    spotify_client::query(args).await;
                 }
                 None => {
                     println!("Please provide a query to search for...");

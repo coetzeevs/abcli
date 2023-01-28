@@ -32,7 +32,7 @@ pub async fn parse_response(response: Response) {
             panic!("Need to grab a new token");
         }
         other => {
-            panic!("Uh oh! Something unexpected happened: {:?}", other);
+            panic!("Uh oh! Something unexpected happened: {other:?}");
         }
     };
 }
