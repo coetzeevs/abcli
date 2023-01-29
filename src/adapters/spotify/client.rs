@@ -1,16 +1,24 @@
-// use core::result::Result::Ok;
-use reqwest::header::{HeaderValue, ACCEPT, AUTHORIZATION, CONTENT_TYPE};
+use reqwest::header::{
+    HeaderValue,
+    ACCEPT,
+    AUTHORIZATION,
+    CONTENT_TYPE
+};
 
 use crate::adapters::api::client::client;
 use crate::adapters::api::models::{Header, Headers};
 use crate::adapters::spotify::helpers::parse_response;
+use crate::app::secrets::get_secret;
 
 
-// TODO: finish
-fn set_auth() {}
+// TODO: finish | need to make this generic as well
+    // Add support for:
+    // Basic
+    // OAuth
+    // Bearer
 
 fn set_headers() -> Headers {
-    let fake_auth = "";
+    let api_key = get_secret("spotify:api_key");
     let headers = Headers {
         headers: vec![
             Header {
@@ -19,7 +27,7 @@ fn set_headers() -> Headers {
             },
             Header {
                 header_name: AUTHORIZATION,
-                header_value: HeaderValue::from_str(format!("Bearer {fake_auth}")
+                header_value: HeaderValue::from_str(format!("Bearer {api_key}")
                     .as_str())
                     .unwrap()
             },
@@ -40,5 +48,3 @@ pub async fn query(query: &String) {
 
     parse_response(response.await).await;
 }
-
-// TODO: discuss error variants https://rust-lang-nursery.github.io/rust-cookbook/errors/handle.html
