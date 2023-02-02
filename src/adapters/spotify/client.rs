@@ -46,5 +46,7 @@ pub async fn query(query: &String) {
     
     let response = client(url, set_headers());
 
-    parse_response(response.await).await;
+    parse_response(response.await).await
 }
+
+// TODO: Can clean this up out of the code. Won't use right now and can add it back in when ready
