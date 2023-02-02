@@ -6,6 +6,7 @@ mod cli;
 mod prelude {
     // add adapters
     pub use crate::adapters::api::client as api_client;
+    pub use crate::adapters::notion::client as notion_client;
     pub use crate::adapters::slack::client as slack_client;
     pub use crate::adapters::spotify::client as spotify_client;
     pub use crate::adapters::slack::stringer as slack_stringer;
@@ -20,8 +21,6 @@ use crate::app::setup::setup;
 
 // tracing and other juicy stuff
 use color_eyre::Report;
-use tracing::info;
-
 
 // clap
 use ::clap::Parser;
@@ -38,9 +37,7 @@ pub struct Cli {
 #[tokio::main]
 async fn main() -> Result<(), Report> {
     setup()?;
-    info!("Setup done...");
 
-    info!("Parsing CLI...");
     let parsed_cli = Cli::parse();
 
     match &parsed_cli.command {
@@ -71,6 +68,18 @@ async fn main() -> Result<(), Report> {
                         // For help on futures: https://fasterthanli.me/articles/understanding-rust-futures-by-going-way-too-deep
                         // For help on error handling: https://www.shuttle.rs/blog/2022/06/30/error-handling
                     spotify_client::query(args).await;
+                }
+                None => {
+                    println!("Please provide a query to search for...");
+                }
+            }
+        }
+        Some(Commands::Notion(args)) => {
+            // This is the args level (for now) - e.g. slack status or slack set
+            // args.string extracts the field value for the arg value "string"
+            match args.page_title {
+                Some(ref args) => {
+                    notion_client::create(args).await;
                 }
                 None => {
                     println!("Please provide a query to search for...");
