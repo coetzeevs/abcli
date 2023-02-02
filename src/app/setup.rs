@@ -4,7 +4,11 @@ use tracing_subscriber::EnvFilter;
 
 
 pub fn setup() -> Result<(), Report> {
+    // TODO: Change to read from .dotenv
     // Settings for development
+    if std::env::var("RUST_BACKTRACE").is_err() {
+        std::env::set_var("RUST_BACKTRACE", "0")
+    }
     if std::env::var("RUST_LIB_BACKTRACE").is_err() {
         std::env::set_var("RUST_LIB_BACKTRACE", "1")
     }
@@ -20,14 +24,5 @@ pub fn setup() -> Result<(), Report> {
     // load env
     dotenv().ok();
 
-    // use tracing::info;
-    // use crate::app::secrets::get_secret;
-    // test secret implementation
-    // let mut test = std::collections::HashMap::new();
-    // test.insert(String::from("db:username"), String::from(""));
-    // test.insert(String::from("db:password"), String::from(""));
-    // let sec = get_secret(&mut test)?;
-    // info!("{sec:#?}");
-    
     Ok(())
 }
