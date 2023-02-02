@@ -22,7 +22,7 @@ pub fn set_page_body(title: &String) -> page::Request {
 
     let parent = shared::Parent::Database(shared::DatabaseParent {
         type_field: "database_id".to_string(),
-        database_id: "a58d647fc64840f39ab11fbff376884d".to_string() // TODO: set from envars
+        database_id: std::env::var("NOTION_DATABASE_ID").is_ok().to_string()
     });
     let properties = properties::Properties {
         name: Some(properties::Name {
