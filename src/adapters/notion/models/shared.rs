@@ -44,8 +44,8 @@ pub struct RichText {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", untagged)]
 pub enum Parent {
-    PageParent(PageParent),
-    DatabaseParent(DatabaseParent),
+    Page(PageParent),
+    Database(DatabaseParent),
     #[default]
     None
 }

@@ -6,22 +6,21 @@ use super::models::properties;
 use super::models::shared;
 
 pub fn set_annontations() -> shared::Annotations {
-    let annote = shared::Annotations {
+    shared::Annotations {
         bold: false,
         italic: false,
         strikethrough: false,
         underline: false,
         code: false,
         color: "default".to_string()
-    };
-    annote
+    }
 }
 
 pub fn set_page_body(title: &String) -> page::Request {
 
     let pt = title.to_owned();
 
-    let parent = shared::Parent::DatabaseParent(shared::DatabaseParent {
+    let parent = shared::Parent::Database(shared::DatabaseParent {
         type_field: "database_id".to_string(),
         database_id: "a58d647fc64840f39ab11fbff376884d".to_string() // TODO: set from envars
     });
@@ -41,12 +40,10 @@ pub fn set_page_body(title: &String) -> page::Request {
             }]
         })
     };
-    let root = page::Request {
+    page::Request {
         parent,
         properties,
-    };
-
-    root
+    }
 }
 
 pub async fn parse_response(response: Response) {
