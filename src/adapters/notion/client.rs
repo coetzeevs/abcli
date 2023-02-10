@@ -38,9 +38,9 @@ fn set_headers() -> Headers {
 }
 
 pub async fn create(title: &String) {
-    let url = format!("https://api.notion.com/v1/pages/");
+    let url = "https://api.notion.com/v1/pages/".to_string();
 
-    let data = set_page_body(&title);
+    let data = set_page_body(title);
     let response = client::post(url, set_headers(), &data);
 
     parse_response(response.await).await

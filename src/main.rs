@@ -1,4 +1,3 @@
-#[allow(dead_code)]
 mod adapters;
 mod app;
 mod cli;
@@ -7,10 +6,6 @@ mod prelude {
     // add adapters
     pub use crate::adapters::api::client as api_client;
     pub use crate::adapters::notion::client as notion_client;
-    pub use crate::adapters::slack::client as slack_client;
-    pub use crate::adapters::spotify::client as spotify_client;
-    pub use crate::adapters::slack::stringer as slack_stringer;
-    pub use crate::adapters::spotify::helpers as spotify_hlprs;
     // add cli
     pub use crate::cli::commands::base::Commands;
 }
@@ -42,38 +37,6 @@ async fn main() -> Result<(), Report> {
 
     match &parsed_cli.command {
         // This operates like a switch statement - this is the command level (e.g. slack or evernote)
-        Some(Commands::Slack(args)) => {
-            // This is the args level (for now) - e.g. slack status or slack set
-            // args.string extracts the field value for the arg value "string"
-            match args.string {
-                Some(ref _args) => {
-                    let reverse = slack_stringer::reverse(_args);
-                    println!("{reverse}");
-                }
-                None => {
-                    println!("Please provide a string to reverse..");
-                }
-            }
-        }
-        Some(Commands::Spotify(args)) => {
-            // This is the args level (for now) - e.g. slack status or slack set
-            // args.string extracts the field value for the arg value "string"
-            match args.query {
-                Some(ref args) => {
-                    // TODO: need to change the spotify query function
-                        // the query function needs to receive the query string, use the set headers,
-                        // call the spotify client (which uses the base client abstraction)
-                        // recieve and parse the response
-                        // forward the results here as an object of type APIResponse
-                        // For help on futures: https://fasterthanli.me/articles/understanding-rust-futures-by-going-way-too-deep
-                        // For help on error handling: https://www.shuttle.rs/blog/2022/06/30/error-handling
-                    spotify_client::query(args).await;
-                }
-                None => {
-                    println!("Please provide a query to search for...");
-                }
-            }
-        }
         Some(Commands::Notion(args)) => {
             // This is the args level (for now) - e.g. slack status or slack set
             // args.string extracts the field value for the arg value "string"
