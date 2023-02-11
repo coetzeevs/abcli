@@ -5,6 +5,7 @@ use super::models::page;
 use super::models::properties;
 use super::models::shared;
 
+
 pub fn set_annontations() -> shared::Annotations {
     shared::Annotations {
         bold: false,
@@ -16,13 +17,11 @@ pub fn set_annontations() -> shared::Annotations {
     }
 }
 
-pub fn set_page_body(title: &String) -> page::Request {
-
-    let pt = title.to_owned();
+pub fn set_page_body(title: String, database_id: String) -> page::Request {
 
     let parent = shared::Parent::Database(shared::DatabaseParent {
         type_field: "database_id".to_string(),
-        database_id: std::env::var("NOTION_DATABASE_ID").is_ok().to_string()
+        database_id
     });
     let properties = properties::Properties {
         name: Some(properties::Name {
@@ -31,11 +30,11 @@ pub fn set_page_body(title: &String) -> page::Request {
             title: vec![shared::Title {
                 type_field: "text".to_string(),
                 text: shared::Text {
-                    content: pt.clone(),
+                    content: title.clone(),
                     link: None
                 },
                 annotations: Some(set_annontations()),
-                plain_text: pt,
+                plain_text: title,
                 href: None
             }]
         })
@@ -65,10 +64,9 @@ pub async fn parse_response(response: Response) {
 }
 
 pub fn parse_success(obj: page::Response) {
-    // let serialized_data = serde_json::to_string(obj).unwrap();
-    info!("Successfully created new page!\n");
+    info!("Successfully created new page(s)!");
 
     for title in obj.properties.name.unwrap().title {
-        info!("Title: {}\n", title.plain_text)
+        info!("Title: {}", title.plain_text)
     };
 }
