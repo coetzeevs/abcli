@@ -9,6 +9,7 @@ use crate::adapters::api::client;
 use crate::adapters::api::models::{Header, Headers};
 use crate::adapters::notion::helpers::parse_response;
 use crate::app::secrets::get_secret;
+use crate::prelude::notion::NotionArgs;
 
 use super::helpers::set_page_body;
 
@@ -37,10 +38,10 @@ fn set_headers() -> Headers {
     headers
 }
 
-pub async fn create(title: &String) {
+pub async fn create(args: NotionArgs) {
     let url = "https://api.notion.com/v1/pages/".to_string();
 
-    let data = set_page_body(title);
+    let data = set_page_body(args.page_title, args.database_id);
     let response = client::post(url, set_headers(), &data);
 
     parse_response(response.await).await
