@@ -1,7 +1,6 @@
 use clap::Args;
 use clap::Subcommand;
 
-
 #[derive(Debug, Args)]
 #[command(args_conflicts_with_subcommands = true)]
 pub struct Notion {
@@ -11,19 +10,19 @@ pub struct Notion {
 
 #[derive(Debug, Subcommand)]
 pub enum NotionCommands {
-    Create(NotionSubcommands)
+    Create(NotionSubcommands),
 }
 
 #[derive(Debug, Args)]
 #[command(args_conflicts_with_subcommands = true)]
 pub struct NotionSubcommands {
     #[command(subcommand)]
-    pub command: Option<NotionSubCommands>
+    pub command: Option<NotionSubCommands>,
 }
 
 #[derive(Debug, Subcommand)]
 pub enum NotionSubCommands {
-    Page(NotionArgs)
+    Page(NotionArgs),
 }
 
 #[derive(Debug, Args)]
@@ -36,5 +35,5 @@ pub struct NotionArgs {
 
     /// Database ID where the page object should be created.
     #[arg(short = 'd', long = "database_id", env = "NOTION_DATABASE_ID")]
-    pub database_id: String
+    pub database_id: String,
 }

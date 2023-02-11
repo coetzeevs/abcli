@@ -1,2 +1,2 @@
-pub mod setup;
 pub mod secrets;
+pub mod setup;

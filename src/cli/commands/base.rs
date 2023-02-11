@@ -2,7 +2,6 @@ use clap::{Subcommand, ValueEnum};
 
 use super::notion::Notion;
 
-
 #[derive(Debug, Subcommand)]
 pub enum Commands {
     // /// Clones repos

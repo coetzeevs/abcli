@@ -6,5 +6,5 @@ pub struct Headers {
 
 pub struct Header {
     pub header_name: HeaderName,
-    pub header_value: HeaderValue
+    pub header_value: HeaderValue,
 }

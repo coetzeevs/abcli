@@ -2,7 +2,6 @@ use serde::{Deserialize, Serialize};
 
 use super::shared::Title;
 
-
 // Name property with Vec<Title>
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]

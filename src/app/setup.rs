@@ -2,7 +2,6 @@ use color_eyre::Report;
 use dotenv::dotenv;
 use tracing_subscriber::EnvFilter;
 
-
 pub fn setup() -> Result<(), Report> {
     // load env
     dotenv().ok();

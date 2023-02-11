@@ -2,7 +2,6 @@ use crate::adapters::api::helpers::construct_headers;
 use crate::adapters::api::models::Headers;
 use crate::adapters::notion::models::page::Request;
 
-
 pub async fn post(url: String, headers: Headers, body: &Request) -> reqwest::Response {
     let client = reqwest::Client::new();
 

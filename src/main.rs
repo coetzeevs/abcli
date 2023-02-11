@@ -21,11 +21,13 @@ use clap::Parser;
 // add app setup
 use crate::app::setup::setup;
 
-
 #[derive(Debug, Parser)]
 #[command(author, version)]
-#[command(about = "A Basic CLI a.k.a. abcli - a simple CLI to do mundane things", long_about = "abcli is a super fancy CLI (kidding)
-You can use abcli to do various things, but at the moment it does nothing...")]
+#[command(
+    about = "A Basic CLI a.k.a. abcli - a simple CLI to do mundane things",
+    long_about = "abcli is a super fancy CLI (kidding)
+You can use abcli to do various things, but at the moment it does nothing..."
+)]
 pub struct Cli {
     #[command(subcommand)]
     command: Option<Commands>,

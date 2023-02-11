@@ -1,9 +1,4 @@
-use reqwest::header::{
-    HeaderValue,
-    ACCEPT,
-    AUTHORIZATION,
-    CONTENT_TYPE,
-};
+use reqwest::header::{HeaderValue, ACCEPT, AUTHORIZATION, CONTENT_TYPE};
 
 use crate::adapters::api::client;
 use crate::adapters::api::models::{Header, Headers};
@@ -13,7 +8,6 @@ use crate::prelude::notion::NotionArgs;
 
 use super::helpers::set_page_body;
 
-
 fn set_headers() -> Headers {
     let api_key = get_secret("notion:integration_key");
 
@@ -21,19 +15,17 @@ fn set_headers() -> Headers {
         headers: vec![
             Header {
                 header_name: ACCEPT,
-                header_value: HeaderValue::from_static("application/json")
+                header_value: HeaderValue::from_static("application/json"),
             },
             Header {
                 header_name: AUTHORIZATION,
-                header_value: HeaderValue::from_str(format!("Bearer {api_key}")
-                    .as_str())
-                    .unwrap()
+                header_value: HeaderValue::from_str(format!("Bearer {api_key}").as_str()).unwrap(),
             },
             Header {
                 header_name: CONTENT_TYPE,
-                header_value: HeaderValue::from_static("application/json")
-            }
-        ]
+                header_value: HeaderValue::from_static("application/json"),
+            },
+        ],
     };
     headers
 }
