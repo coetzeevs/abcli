@@ -15,16 +15,32 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-    if: ${{ github.actor == 'coetzeevs' }} && ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: >
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.actor == 'coetzeevs'
     steps:
-      - uses: actions/checkout@v3
-      - name: Wait for checks to succeed
-        uses: lewagon/wait-on-check-action@v1.2.0
+      - name: 'Download PR artifact'
+        uses: actions/github-script@v3.1.0
         with:
-          ref: ${{ github.ref }}
-          running-workflow-name: 'Auto-approve PR'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
+          script: |
+            var artifacts = await github.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: ${{github.event.workflow_run.id }},
+            });
+            var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "pr"
+            })[0];
+            var download = await github.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip',
+            });
+            var fs = require('fs');
+            fs.writeFileSync('${{github.workspace}}/pr.zip', Buffer.from(download.data));
+      - run: unzip pr.zip
       - name: Apply auto-approval
         uses: hmarr/auto-approve-action@v3
         with:

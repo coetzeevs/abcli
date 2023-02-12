@@ -1,10 +1,24 @@
-on: push
+on: pull_request
 
 name: CI
 
 jobs:
+  build:
+    name: Save PR number
+    runs-on: ubuntu-latest
+    steps:        
+      - uses: actions/checkout@v3
+        run: |
+          mkdir -p ./pr
+          echo ${{ github.event.number }} > ./pr/pull-request-number
+      - uses: actions/upload-artifact@v2
+        with:
+          name: pr
+          path: pr/
+
   check:
     name: Check
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -19,6 +33,7 @@ jobs:
 
   test:
     name: Test Suite
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -33,6 +48,7 @@ jobs:
 
   fmt:
     name: Rustfmt
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -49,6 +65,7 @@ jobs:
 
   clippy:
     name: Clippy
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
