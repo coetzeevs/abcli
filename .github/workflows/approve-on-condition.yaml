@@ -1,5 +1,8 @@
 on:
-  pull_request:
+  workflow_run:
+    workflows: ['CI']
+    types:
+      - completed
 
 name: Approve
 
@@ -18,7 +21,6 @@ jobs:
           ref: ${{ github.sha }}
           running-workflow-name: 'Auto-approve PR'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          check-regexp: ci-.+
           wait-interval: 20
       - name: Apply auto-approval
         uses: hmarr/auto-approve-action@v3

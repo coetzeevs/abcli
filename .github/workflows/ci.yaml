@@ -1,9 +1,9 @@
 on: push
 
-name: Continuous integration
+name: CI
 
 jobs:
-  ci-check:
+  check:
     name: Check
     runs-on: ubuntu-latest
     steps:
@@ -17,8 +17,9 @@ jobs:
         with:
           command: check
 
-  ci-test:
+  test:
     name: Test Suite
+    needs: check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -31,8 +32,9 @@ jobs:
         with:
           command: test
 
-  ci-fmt:
+  fmt:
     name: Rustfmt
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -47,8 +49,9 @@ jobs:
           command: fmt
           args: --all -- --check
 
-  ci-clippy:
+  clippy:
     name: Clippy
+    needs: fmt
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
