@@ -3,7 +3,7 @@ on: push
 name: Continuous integration
 
 jobs:
-  check:
+  ci-check:
     name: Check
     runs-on: ubuntu-latest
     steps:
@@ -17,7 +17,7 @@ jobs:
         with:
           command: check
 
-  test:
+  ci-test:
     name: Test Suite
     runs-on: ubuntu-latest
     steps:
@@ -31,7 +31,7 @@ jobs:
         with:
           command: test
 
-  fmt:
+  ci-fmt:
     name: Rustfmt
     runs-on: ubuntu-latest
     steps:
@@ -47,7 +47,7 @@ jobs:
           command: fmt
           args: --all -- --check
 
-  clippy:
+  ci-clippy:
     name: Clippy
     runs-on: ubuntu-latest
     steps:

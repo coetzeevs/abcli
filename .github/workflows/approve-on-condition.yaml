@@ -11,14 +11,16 @@ jobs:
       pull-requests: write
     if: github.actor == 'coetzeevs'
     steps:
+      - uses: actions/checkout@v3
       - name: Wait for checks to succeed
-        uses: lewagon/wait-on-check-action@v1.2.0
+        uses: ./
         with:
-          ref: ${{ github.ref }}
+          ref: ${{ github.sha }}
           running-workflow-name: 'Auto-approve PR'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
-      - name: Aply auto-approval
+          check-regexp: ci-.+
+          wait-interval: 20
+      - name: Apply auto-approval
         uses: hmarr/auto-approve-action@v3
         with:
           review-message: "Auto approved PR from workflow"
