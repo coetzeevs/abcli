@@ -38,9 +38,18 @@ jobs:
             var fs = require('fs');
             fs.writeFileSync('${{github.workspace}}/pr.zip', Buffer.from(download.data));
       - run: unzip pr.zip
+      - name: Export PR number
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            var fs = require('fs');
+            var issue_number = Number(fs.readFileSync('./NR'));
+            export PR_NUMBER=$issue_number;
+            echo $PR_NUMBER;
       - name: Apply auto-approval
         uses: hmarr/auto-approve-action@v3
         with:
           review-message: "Auto approved PR from workflow"
           github-token: ${{ secrets.ACTION_TOKEN_V2 }}
-          pull-request-number: ${{ github.event.inputs.pullRequestNumber }}
+          pull-request-number: ${{ PR_NUMBER }}
