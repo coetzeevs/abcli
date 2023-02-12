@@ -18,10 +18,10 @@ jobs:
       - name: Wait for checks to succeed
         uses: lewagon/wait-on-check-action@v1.2.0
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ github.ref }}
           running-workflow-name: 'Auto-approve PR'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 20
+          wait-interval: 10
       - name: Apply auto-approval
         uses: hmarr/auto-approve-action@v3
         with:
