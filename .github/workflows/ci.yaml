@@ -7,8 +7,7 @@ jobs:
     name: Save PR number
     runs-on: ubuntu-latest
     steps:        
-      - uses: actions/checkout@v3
-        run: |
+      - run: |
           mkdir -p ./pr
           echo ${{ github.event.number }} > ./pr/pull-request-number
       - uses: actions/upload-artifact@v2
