@@ -1,8 +1,4 @@
-on:
-  workflow_dispatch:
-    inputs: pullRequestNumber
-      description: Pull request number to auto-approve
-      required: false
+on: [pull_request]
 
 name: Approve
 
@@ -25,4 +21,3 @@ jobs:
         uses: hmarr/auto-approve-action@v3
         with:
           review-message: "Auto approved PR from workflow"
-          pull-request-number: ${{ github.event.inputs.pullRequestNumber }}
