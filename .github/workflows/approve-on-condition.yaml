@@ -1,6 +1,9 @@
 on:
   workflow_run:
     workflows: ['CI']
+    inputs: pullRequestNumber
+      description: Pull request number to auto-approve
+      required: false
     types:
       - completed
 
@@ -27,3 +30,4 @@ jobs:
         with:
           review-message: "Auto approved PR from workflow"
           github-token: ${{ secrets.ACTION_TOKEN_V2 }}
+          pull-request-number: ${{ github.event.inputs.pullRequestNumber }}
