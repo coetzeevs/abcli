@@ -1,3 +1,5 @@
+[![Continuous integration](https://github.com/coetzeevs/abcli/actions/workflows/ci.yaml/badge.svg?branch=main&event=push)](https://github.com/coetzeevs/abcli/actions/workflows/ci.yaml)
+
 # abcli
 A Basic CLI, a.k.a. abcli - my first journey into Rust and I'm automating some silly things locally.
 
