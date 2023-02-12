@@ -1,9 +1,8 @@
 on:
-  workflow_run:
-    workflows: ['CI']
-    types:
-      - completed
   workflow_dispatch:
+    workflows: ['CI']
+      types:
+        - completed
     inputs: pullRequestNumber
       description: Pull request number to auto-approve
       required: false
