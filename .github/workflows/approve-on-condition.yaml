@@ -1,6 +1,6 @@
 name: Approve
 
-on: [push]
+on: [pull-request]
 
 jobs:
   approve:
