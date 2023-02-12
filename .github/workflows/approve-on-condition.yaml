@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs: pullRequestNumber
       description: Pull request number to auto-approve
-      required: true
+      required: false
 
 name: Approve
 
