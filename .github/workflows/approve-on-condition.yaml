@@ -21,3 +21,4 @@ jobs:
         uses: hmarr/auto-approve-action@v3
         with:
           review-message: "Auto approved PR from workflow"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
