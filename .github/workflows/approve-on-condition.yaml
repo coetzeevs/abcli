@@ -1,0 +1,23 @@
+name: Approve
+
+on: [push]
+
+jobs:
+  approve:
+    name: Auto-approve PR
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    if: github.actor == 'coetzeevs'
+    steps:
+      - name: Wait for checks to succeed
+        uses: lewagon/wait-on-check-action@v1.2.0
+        with:
+          ref: ${{ github.ref }}
+          running-workflow-name: 'Auto-approve PR'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
+      - name: Aply auto-approval
+        uses: hmarr/auto-approve-action@v3
+        with:
+          review-message: "Auto approved PR from workflow"
