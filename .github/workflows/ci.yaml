@@ -3,36 +3,8 @@ on: pull_request
 name: CI
 
 jobs:
-  build:
-    name: Save PR number
-    runs-on: ubuntu-latest
-    steps:        
-      - run: |
-          mkdir -p ./pr
-          echo ${{ github.event.number }} > ./pr/pull-request-number
-      - uses: actions/upload-artifact@v3
-        with:
-          name: pr
-          path: pr/
-
   check:
     name: Check
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
-      - uses: actions-rs/cargo@v1
-        with:
-          command: check
-
-  test:
-    name: Test Suite
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -49,7 +21,30 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          key: check-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - uses: actions-rs/cargo@v1
+        with:
+          command: check
+
+  test:
+    name: Test Suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: test-cargo-${{ hashFiles('**/Cargo.lock') }}
       - uses: actions-rs/cargo@v1
         if: steps.cache-primes.outputs.cache-hit != 'true'
         with:
@@ -57,7 +52,6 @@ jobs:
 
   fmt:
     name: Rustfmt
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -67,6 +61,15 @@ jobs:
           toolchain: stable
           override: true
       - run: rustup component add rustfmt
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: fmt-cargo-${{ hashFiles('**/Cargo.lock') }}
       - uses: actions-rs/cargo@v1
         with:
           command: fmt
@@ -74,7 +77,6 @@ jobs:
 
   clippy:
     name: Clippy
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -84,6 +86,15 @@ jobs:
           toolchain: stable
           override: true
       - run: rustup component add clippy
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: clippy-cargo-${{ hashFiles('**/Cargo.lock') }}
       - uses: actions-rs/clippy-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
