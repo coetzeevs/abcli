@@ -21,7 +21,7 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          key: check-cargo-${{ hashFiles('**/Cargo.lock') }}
       - uses: actions-rs/cargo@v1
         with:
           command: check
@@ -44,7 +44,7 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          key: test-cargo-${{ hashFiles('**/Cargo.lock') }}
       - uses: actions-rs/cargo@v1
         if: steps.cache-primes.outputs.cache-hit != 'true'
         with:
@@ -69,7 +69,7 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          key: fmt-cargo-${{ hashFiles('**/Cargo.lock') }}
       - uses: actions-rs/cargo@v1
         with:
           command: fmt
@@ -94,7 +94,7 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          key: clippy-cargo-${{ hashFiles('**/Cargo.lock') }}
       - uses: actions-rs/clippy-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
