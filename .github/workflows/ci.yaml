@@ -5,7 +5,6 @@ name: CI
 jobs:
   check:
     name: Check
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
