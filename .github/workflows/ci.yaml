@@ -88,3 +88,18 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: --all-features
+
+  approve:
+    name: Approve
+    needs: [check, test, fmt, clippy]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply auto-approval
+        if: >
+          github.actor == 'coetzeevs' &&
+          github.event.pull_request.number
+        uses: hmarr/auto-approve-action@v3
+        with:
+          review-message: "Auto approved PR from workflow"
+          github-token: ${{ secrets.ACTION_TOKEN_V2 }}
+          pull-request-number: ${{ github.event.pull_request.number }}
