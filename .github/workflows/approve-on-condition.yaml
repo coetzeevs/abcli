@@ -46,10 +46,10 @@ jobs:
             var fs = require('fs');
             var issue_number = Number(fs.readFileSync('./pull-request-number'));
             export PR_NUMBER=$issue_number;
-            echo $PR_NUMBER;
+            echo "::set-env name=PR_NUMBER::$PR_NUMBER"
       - name: Apply auto-approval
         uses: hmarr/auto-approve-action@v3
         with:
           review-message: "Auto approved PR from workflow"
           github-token: ${{ secrets.ACTION_TOKEN_V2 }}
-          pull-request-number: ${{ PR_NUMBER }}
+          pull-request-number: $PR_NUMBER
