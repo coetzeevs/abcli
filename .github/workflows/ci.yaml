@@ -41,7 +41,17 @@ jobs:
           profile: minimal
           toolchain: stable
           override: true
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       - uses: actions-rs/cargo@v1
+        if: steps.cache-primes.outputs.cache-hit != 'true'
         with:
           command: test
 
@@ -78,3 +88,18 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: --all-features
+
+  approve:
+    name: Approve
+    needs: [check, test, fmt, clippy]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply auto-approval
+        if: >
+          github.actor == 'coetzeevs' &&
+          github.event.pull_request.number
+        uses: hmarr/auto-approve-action@v3
+        with:
+          review-message: "Auto approved PR from workflow"
+          github-token: ${{ secrets.ACTION_TOKEN_V2 }}
+          pull-request-number: ${{ github.event.pull_request.number }}
