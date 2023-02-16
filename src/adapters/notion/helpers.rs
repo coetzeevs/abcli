@@ -1,43 +1,17 @@
+use std::path::Path;
+
 use reqwest::{Response, StatusCode};
 use tracing::info;
 
 use super::models::page;
-use super::models::properties;
-use super::models::shared;
-
-pub fn set_annontations() -> shared::Annotations {
-    shared::Annotations {
-        bold: false,
-        italic: false,
-        strikethrough: false,
-        underline: false,
-        code: false,
-        color: "default".to_string(),
-    }
-}
 
 pub fn set_page_body(title: String, database_id: String) -> page::Request {
-    let parent = shared::Parent::Database(shared::DatabaseParent {
-        type_field: "database_id".to_string(),
-        database_id,
-    });
-    let properties = properties::Properties {
-        name: Some(properties::Name {
-            id: "LKBS985".to_string(),
-            type_field: "title".to_string(),
-            title: vec![shared::Title {
-                type_field: "text".to_string(),
-                text: shared::Text {
-                    content: title.clone(),
-                    link: None,
-                },
-                annotations: Some(set_annontations()),
-                plain_text: title,
-                href: None,
-            }],
-        }),
-    };
-    page::Request { parent, properties }
+    let path = Path::new("./templates/notion/pages/daily.json");
+    let mut text = std::fs::read_to_string(path).unwrap();
+    text = text.replace("var.date_today", title.as_str());
+    text = text.replace("var.database_id", database_id.as_str());
+    let p: page::Request = serde_json::from_str(&text).unwrap();
+    p
 }
 
 pub async fn parse_response(response: Response) {
@@ -60,7 +34,7 @@ pub async fn parse_response(response: Response) {
 pub fn parse_success(obj: page::Response) {
     info!("Successfully created new page(s)!");
 
-    for title in obj.properties.name.unwrap().title {
+    for title in obj.properties.name.title {
         info!("Title: {}", title.plain_text)
     }
 }
