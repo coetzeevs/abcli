@@ -25,7 +25,7 @@ pub struct Title {
     #[serde(rename = "type")]
     pub type_field: String,
     pub text: Text,
-    #[serde(skip_serializing_if="Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub annotations: Option<Annotations>,
     #[serde(rename = "plain_text")]
     pub plain_text: String,
@@ -87,7 +87,6 @@ pub struct RichText {
     pub type_field: String,
     pub text: Text,
 }
-
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
