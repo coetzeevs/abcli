@@ -16,5 +16,5 @@ pub struct Name {
 #[serde(rename_all = "camelCase")]
 pub struct Properties {
     #[serde(rename = "Name")]
-    pub name: Option<Name>,
+    pub name: Name,
 }
