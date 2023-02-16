@@ -25,18 +25,11 @@ pub struct Title {
     #[serde(rename = "type")]
     pub type_field: String,
     pub text: Text,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub annotations: Option<Annotations>,
     #[serde(rename = "plain_text")]
     pub plain_text: String,
     pub href: Option<Value>,
-}
-
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct RichText {
-    #[serde(rename = "rich_text")]
-    pub type_field: String,
-    pub text: Text,
 }
 
 /// Parent enum
@@ -67,4 +60,47 @@ pub struct DatabaseParent {
     pub type_field: String,
     #[serde(rename = "database_id")]
     pub database_id: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Children {
+    pub object: String,
+    #[serde(rename = "type")]
+    pub type_field: String,
+    #[serde(rename = "heading_2")]
+    pub heading_2: Heading2,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Heading2 {
+    #[serde(rename = "rich_text")]
+    pub rich_text: Vec<RichText>,
+    pub children: Option<Vec<Option<BulletedListItem>>>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RichText {
+    #[serde(rename = "type")]
+    pub type_field: String,
+    pub text: Text,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BulletedListItem {
+    pub object: String,
+    #[serde(rename = "type")]
+    pub type_field: String,
+    #[serde(rename = "bulleted_list_item")]
+    pub bulleted_list_item: BulletedListRichText,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BulletedListRichText {
+    #[serde(rename = "rich_text")]
+    pub rich_text: Vec<RichText>,
 }

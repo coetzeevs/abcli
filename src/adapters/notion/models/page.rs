@@ -1,13 +1,17 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use super::{properties::Properties, shared::Parent};
+use super::{
+    properties::Properties,
+    shared::{Children, Parent},
+};
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Request {
     pub parent: Parent,
     pub properties: Properties,
+    pub children: Vec<Children>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]

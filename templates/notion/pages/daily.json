@@ -1,0 +1,141 @@
+{
+  "parent": {
+      "type": "database_id",
+      "database_id": "var.database_id"
+  },
+  "properties": {
+      "Name": {
+          "id": "LKBS985",
+          "type": "title",
+          "title": [
+              {
+                  "type": "text",
+                  "text": {
+                      "content": "var.date_today",
+                      "link": null
+                  },
+                  "plain_text": "var.date_today",
+                  "href": null
+              }
+          ]
+      }
+  },
+  "children": [
+      {
+          "object": "block",
+          "type": "heading_2",
+          "heading_2": {
+              "rich_text": [
+                  {
+                      "type": "text",
+                      "text": {
+                          "content": "Yesterday",
+                          "link": null
+                      }
+                  }
+              ],
+              "children":[{
+                "object": "block",
+                "type": "bulleted_list_item",
+                "bulleted_list_item": {
+                  "rich_text": [{
+                    "type": "text",
+                    "text": {
+                      "content": "",
+                      "link": null
+                    }
+                  }]
+                }
+              }
+            ]
+          }
+      },
+      {
+          "object": "block",
+          "type": "heading_2",
+          "heading_2": {
+              "rich_text": [
+                  {
+                      "type": "text",
+                      "text": {
+                          "content": "Today",
+                          "link": null
+                      }
+                  }
+              ],
+              "children":[{
+                "object": "block",
+                "type": "bulleted_list_item",
+                "bulleted_list_item": {
+                  "rich_text": [{
+                    "type": "text",
+                    "text": {
+                      "content": "",
+                      "link": null
+                    }
+                  }]
+                }
+              }
+            ]
+          }
+      },
+      {
+          "object": "block",
+          "type": "heading_2",
+          "heading_2": {
+              "rich_text": [
+                  {
+                      "type": "text",
+                      "text": {
+                          "content": "Blockers",
+                          "link": null
+                      }
+                  }
+              ],
+              "children":[{
+                "object": "block",
+                "type": "bulleted_list_item",
+                "bulleted_list_item": {
+                  "rich_text": [{
+                    "type": "text",
+                    "text": {
+                      "content": "",
+                      "link": null
+                    }
+                  }]
+                }
+              }
+            ]
+          }
+      },
+      {
+          "object": "block",
+          "type": "heading_2",
+          "heading_2": {
+              "rich_text": [
+                  {
+                      "type": "text",
+                      "text": {
+                          "content": "Meetings",
+                          "link": null
+                      }
+                  }
+              ],
+              "children":[{
+                "object": "block",
+                "type": "bulleted_list_item",
+                "bulleted_list_item": {
+                  "rich_text": [{
+                    "type": "text",
+                    "text": {
+                      "content": "",
+                      "link": null
+                    }
+                  }]
+                }
+              }
+            ]
+          }
+      }
+  ]
+}
